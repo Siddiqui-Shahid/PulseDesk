@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'router/app_router.dart';
 import 'router/app_route.dart';
-import 'router/route_models.dart';
 import 'network/network_manager.dart';
 import 'network/network_routes.dart';
 import 'network/network_service.dart';
 import 'database/local_database_manager.dart';
 import 'repositories/repositories.dart';
-import 'screens/home_screen.dart';
-import 'screens/details_screen.dart';
-import 'screens/profile_screen.dart';
-import 'screens/settings_screen.dart';
-import 'screens/not_found_screen.dart';
 
 void main() async {
   // Initialize local database
@@ -57,40 +51,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _appRouter = AppRouter();
-    _setupRoutes();
+    _appRouter.setupRoutes();
     _setupRouteListeners();
-  }
-
-  /// Registers all routes with their corresponding screen builders
-  ///
-  /// This demonstrates the route registration pattern
-  void _setupRoutes() {
-    _appRouter.registerRoutes({
-      // Home route - entry point
-      AppRoute.home: (context) => const HomeScreen(),
-
-      // Details route - receives RouteArguments with product/item data
-      AppRoute.details: (context) {
-        // Extract arguments from the navigation arguments
-        final args = ModalRoute.of(context)?.settings.arguments;
-        return DetailsScreen(arguments: args is RouteArguments ? args : null);
-      },
-
-      // Profile route - receives user profile data
-      AppRoute.profile: (context) {
-        final args = ModalRoute.of(context)?.settings.arguments;
-        return ProfileScreen(arguments: args is RouteArguments ? args : null);
-      },
-
-      // Settings route - simple screen without data
-      AppRoute.settings: (context) => const SettingsScreen(),
-
-      // Not found route - fallback for invalid paths
-      AppRoute.notFound: (context) {
-        final args = ModalRoute.of(context)?.settings.arguments;
-        return NotFoundScreen(attemptedPath: args is String ? args : null);
-      },
-    });
   }
 
   /// Sets up listeners to track route changes
@@ -125,9 +87,10 @@ class _MyAppState extends State<MyApp> {
           return MaterialPageRoute(builder: builder, settings: settings);
         }
 
-        // Fallback to not found screen
+        // Fallback to not found screen (handled by AppRouter)
+        final notFoundBuilder = _appRouter.getRouteBuilder(AppRoute.notFound);
         return MaterialPageRoute(
-          builder: (context) => NotFoundScreen(attemptedPath: settings.name),
+          builder: notFoundBuilder ?? (context) => const SizedBox(),
           settings: settings,
         );
       },

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'app_route.dart';
 import 'route_models.dart';
+import '../screens/home_screen.dart';
+import '../screens/details_screen.dart';
+import '../screens/profile_screen.dart';
+import '../screens/settings_screen.dart';
+import '../screens/not_found_screen.dart';
 
 /// Central router class that manages all navigation in the application.
 ///
@@ -267,5 +272,42 @@ class AppRouter {
 
     // Otherwise, wrap it as generic data
     return RouteArguments(data: data);
+  }
+
+  /// Registers all application routes with their screen builders
+  ///
+  /// This method sets up the route registry with all available screens.
+  /// Call this during app initialization to prepare the router.
+  ///
+  /// Example:
+  /// ```dart
+  /// _appRouter.setupRoutes();
+  /// ```
+  void setupRoutes() {
+    registerRoutes({
+      // Home route - entry point
+      AppRoute.home: (context) => const HomeScreen(),
+
+      // Details route - receives RouteArguments with product/item data
+      AppRoute.details: (context) {
+        final args = ModalRoute.of(context)?.settings.arguments;
+        return DetailsScreen(arguments: args is RouteArguments ? args : null);
+      },
+
+      // Profile route - receives user profile data
+      AppRoute.profile: (context) {
+        final args = ModalRoute.of(context)?.settings.arguments;
+        return ProfileScreen(arguments: args is RouteArguments ? args : null);
+      },
+
+      // Settings route - simple screen without data
+      AppRoute.settings: (context) => const SettingsScreen(),
+
+      // Not found route - fallback for invalid paths
+      AppRoute.notFound: (context) {
+        final args = ModalRoute.of(context)?.settings.arguments;
+        return NotFoundScreen(attemptedPath: args is String ? args : null);
+      },
+    });
   }
 }
