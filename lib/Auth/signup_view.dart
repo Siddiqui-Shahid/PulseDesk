@@ -78,7 +78,10 @@ class _SignupViewState extends State<SignupView> {
                       margin: const EdgeInsets.only(bottom: 16),
                       decoration: BoxDecoration(
                         color: Colors.red.shade50,
-                        border: Border.all(color: Colors.red.shade300, width: 1.5),
+                        border: Border.all(
+                          color: Colors.red.shade300,
+                          width: 1.5,
+                        ),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Column(
@@ -86,7 +89,11 @@ class _SignupViewState extends State<SignupView> {
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.error_outline, color: Colors.red.shade700, size: 20),
+                              Icon(
+                                Icons.error_outline,
+                                color: Colors.red.shade700,
+                                size: 20,
+                              ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
@@ -144,10 +151,12 @@ class _SignupViewState extends State<SignupView> {
                       helperText: _vm.currentPassword.isEmpty
                           ? 'Enter a password'
                           : _vm.isPasswordValid
-                              ? '✓ Password meets all requirements'
-                              : 'Password does not meet all requirements',
+                          ? '✓ Password meets all requirements'
+                          : 'Password does not meet all requirements',
                       helperStyle: TextStyle(
-                        color: _vm.isPasswordValid ? Colors.green : Colors.orange,
+                        color: _vm.isPasswordValid
+                            ? Colors.green
+                            : Colors.orange,
                       ),
                     ),
                   ),

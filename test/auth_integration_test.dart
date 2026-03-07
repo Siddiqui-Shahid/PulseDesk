@@ -16,7 +16,8 @@ void main() {
 
       // Create network manager pointing to localhost backend
       final networkService = NetworkService(
-        baseUrl: '${NetworkProtocol.http.value}://${NetworkBase.localhostDevice.value}',
+        baseUrl:
+            '${NetworkProtocol.http.value}://${NetworkBase.localhostDevice.value}',
       );
       networkManager = NetworkManager(
         service: networkService,

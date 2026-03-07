@@ -15,12 +15,13 @@ class ApiError {
   /// Factory constructor to parse JSON error response from backend
   factory ApiError.fromJson(Map<String, dynamic> json) {
     final error = json['error'] as Map<String, dynamic>?;
-    
+
     if (error == null) {
       // Fallback for non-standard error responses
       return ApiError(
         code: 'UNKNOWN_ERROR',
-        message: json['message'] ?? json['error'] ?? 'An unexpected error occurred',
+        message:
+            json['message'] ?? json['error'] ?? 'An unexpected error occurred',
       );
     }
 
@@ -37,19 +38,19 @@ class ApiError {
   /// Get formatted error message with optional details
   String getFormattedMessage() {
     final buffer = StringBuffer(message);
-    
+
     if (details != null && details!.isNotEmpty) {
       buffer.writeln();
       for (final detail in details!) {
         buffer.writeln('• $detail');
       }
     }
-    
+
     if (hint != null && hint!.isNotEmpty) {
       buffer.writeln();
       buffer.write('💡 Tip: $hint');
     }
-    
+
     return buffer.toString();
   }
 
@@ -62,7 +63,8 @@ class ApiError {
         return hint ?? 'This email or username is already registered.';
       case 'INVALID_PASSWORD':
       case 'INVALID_CREDENTIALS':
-        return hint ?? 'Email or password is incorrect. Remember passwords are case-sensitive.';
+        return hint ??
+            'Email or password is incorrect. Remember passwords are case-sensitive.';
       case 'MISSING_FIELDS':
         return 'Please fill in all required fields.';
       case 'SERVER_ERROR':

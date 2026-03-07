@@ -14,7 +14,8 @@ void main() async {
 
   // Initialize network layer
   final networkService = NetworkService(
-    baseUrl: '${NetworkProtocol.http.value}://${NetworkBase.localhostDevice.value}',
+    baseUrl:
+        '${NetworkProtocol.http.value}://${NetworkBase.localhostDevice.value}',
   );
   final networkManager = NetworkManager(
     service: networkService,
@@ -95,7 +96,9 @@ class _MyAppState extends State<MyApp> {
         );
       },
       // Initial route - direct to login if not authenticated, otherwise home
-      initialRoute: widget.isAuthenticated ? AppRoute.home.path : AppRoute.login.path,
+      initialRoute: widget.isAuthenticated
+          ? AppRoute.home.path
+          : AppRoute.login.path,
     );
   }
 }

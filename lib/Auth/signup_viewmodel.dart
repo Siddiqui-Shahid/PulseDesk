@@ -7,11 +7,11 @@ import '../models/api_error.dart';
 
 class SignupViewModel extends ChangeNotifier {
   final AppRouter _router = AppRouter();
-  
+
   bool _isLoading = false;
   String? _errorMessage;
   String _currentPassword = '';
-  
+
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   String get currentPassword => _currentPassword;
@@ -21,7 +21,7 @@ class SignupViewModel extends ChangeNotifier {
   bool get hasLowerCase => _currentPassword.contains(RegExp(r'[a-z]'));
   bool get hasNumber => _currentPassword.contains(RegExp(r'[0-9]'));
   bool get hasMinLength => _currentPassword.length >= 8;
-  
+
   bool get isPasswordValid =>
       hasUpperCase && hasLowerCase && hasNumber && hasMinLength;
 
@@ -34,8 +34,10 @@ class SignupViewModel extends ChangeNotifier {
   // Get list of password requirement errors
   List<String> getPasswordErrors() {
     final errors = <String>[];
-    if (!hasUpperCase) errors.add('must contain at least one uppercase letter (A-Z)');
-    if (!hasLowerCase) errors.add('must contain at least one lowercase letter (a-z)');
+    if (!hasUpperCase)
+      errors.add('must contain at least one uppercase letter (A-Z)');
+    if (!hasLowerCase)
+      errors.add('must contain at least one lowercase letter (a-z)');
     if (!hasNumber) errors.add('must contain at least one number (0-9)');
     if (!hasMinLength) errors.add('must be at least 8 characters long');
     return errors;
@@ -58,7 +60,8 @@ class SignupViewModel extends ChangeNotifier {
       // Validate password strength client-side
       final passwordErrors = getPasswordErrors();
       if (passwordErrors.isNotEmpty) {
-        _errorMessage = 'Password requirements not met:\n${passwordErrors.join('\n')}';
+        _errorMessage =
+            'Password requirements not met:\n${passwordErrors.join('\n')}';
         _isLoading = false;
         notifyListeners();
         return;
