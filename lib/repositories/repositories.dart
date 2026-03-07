@@ -70,19 +70,24 @@ class AuthRepository {
       'password': password,
     };
 
-    final response = await _networkManager.post<User>(
+    final response = await _networkManager.post<Map<String, dynamic>>(
       endpoint: NetworkEndpoint.signup,
       data: signupData,
       decoder: (json) {
         if (json is Map<String, dynamic>) {
-          return User.fromJson(json);
+          return json;
         }
         throw Exception('Invalid response format');
       },
     );
 
     if (response != null) {
-      return response;
+      // Backend returns { user: {...} }
+      final userData = response['user'] as Map<String, dynamic>?;
+      if (userData != null) {
+        return User.fromJson(userData);
+      }
+      throw Exception('User data not found in response');
     }
     throw Exception('Signup failed');
   }

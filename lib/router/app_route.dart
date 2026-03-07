@@ -3,7 +3,10 @@
 ///
 /// Pattern: Use the enum value name as the route path (e.g., AppRoute.home -> '/home')
 enum AppRoute {
+  splash('/splash'),
   home('/home'),
+  login('/login'),
+  signup('/signup'),
   details('/details'),
   profile('/profile'),
   settings('/settings'),

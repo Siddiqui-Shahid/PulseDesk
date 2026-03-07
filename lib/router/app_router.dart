@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'app_route.dart';
 import 'route_models.dart';
+import '../screens/splash_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/details_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/settings_screen.dart';
 import '../screens/not_found_screen.dart';
+import '../Auth/login_view.dart';
+import '../Auth/signup_view.dart';
 
 /// Central router class that manages all navigation in the application.
 ///
@@ -285,8 +288,13 @@ class AppRouter {
   /// ```
   void setupRoutes() {
     registerRoutes({
-      // Home route - entry point
+      // Splash route - initial screen displayed on app launch
+      AppRoute.splash: (context) => const SplashScreen(),
+
+      // Home route - entry point after splash
       AppRoute.home: (context) => const HomeScreen(),
+      AppRoute.login: (context) => const LoginView(),
+      AppRoute.signup: (context) => const SignupView(),
 
       // Details route - receives RouteArguments with product/item data
       AppRoute.details: (context) {

@@ -58,7 +58,7 @@ class ApiResponse<T> {
 
 /// User model for authentication and profile
 class User {
-  final int id;
+  final String id; // Changed from int to String to match backend
   final String email;
   final String username;
   final String? name;
@@ -80,7 +80,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'] ?? 0,
+      id: (json['id'] ?? '').toString(),
       email: json['email'] ?? '',
       username: json['username'] ?? '',
       name: json['name'],
@@ -164,7 +164,7 @@ class AuthResponse {
   String toString() => 'AuthResponse(token: $token, user: $user)';
 
   static User _emptyUser() {
-    return const User(id: 0, email: '', username: '');
+    return const User(id: '0', email: '', username: '');
   }
 }
 
@@ -223,7 +223,7 @@ class Post {
   }
 
   static User _emptyAuthor() {
-    return const User(id: 0, email: '', username: 'Unknown');
+    return const User(id: '0', email: '', username: 'Unknown');
   }
 }
 

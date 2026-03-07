@@ -14,12 +14,12 @@ void main() async {
 
   // Initialize network layer
   final networkService = NetworkService(
-    baseUrl: '${NetworkProtocol.https.value}://${NetworkBase.production.value}',
+    baseUrl: '${NetworkProtocol.http.value}://${NetworkBase.localhostDevice.value}',
   );
   final networkManager = NetworkManager(
     service: networkService,
-    protocol: NetworkProtocol.https,
-    base: NetworkBase.production,
+    protocol: NetworkProtocol.http,
+    base: NetworkBase.localhostDevice,
   );
 
   // Initialize repositories
@@ -94,8 +94,8 @@ class _MyAppState extends State<MyApp> {
           settings: settings,
         );
       },
-      // Initial route
-      initialRoute: AppRoute.home.path,
+      // Initial route - direct to login if not authenticated, otherwise home
+      initialRoute: widget.isAuthenticated ? AppRoute.home.path : AppRoute.login.path,
     );
   }
 }

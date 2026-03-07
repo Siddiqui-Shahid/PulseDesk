@@ -1,13 +1,34 @@
 import 'package:flutter/material.dart';
+import 'view_models/home_view_model.dart';
+import 'widgets/home_widgets.dart';
 import '../router/app_router.dart';
 import '../router/app_route.dart';
-import '../router/route_models.dart';
 
 /// Home screen - the initial route of the application
 ///
-/// Demonstrates navigation with and without data
-class HomeScreen extends StatelessWidget {
+/// Uses a widgetized approach with ViewModel pattern
+/// Data flows from ViewModel to custom widgets
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late HomeViewModel _viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel = HomeViewModel();
+  }
+
+  @override
+  void dispose() {
+    _viewModel.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,130 +41,25 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Icon(Icons.home, size: 80, color: Colors.blue),
+              // Welcome Header Widget - displays welcome message and icon
+              WelcomeHeaderWidget(data: _viewModel.welcomeData),
+              const SizedBox(height: 48),
+              // Navigation Buttons Widget - displays all navigation options
+              NavigationButtonsWidget(items: _viewModel.navigationItems),
               const SizedBox(height: 24),
-              const Text(
-                'Welcome to PulseDesk',
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ElevatedButton(
+                onPressed: () => AppRouter().pushRoute(AppRoute.login),
+                child: const Text('Login'),
               ),
               const SizedBox(height: 12),
-              const Text(
-                'A Flutter Router System Example',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-              const SizedBox(height: 48),
-              // Navigation without data
-              ElevatedButton.icon(
-                onPressed: () {
-                  _navigateToDetails(context, withData: false);
-                },
-                icon: const Icon(Icons.arrow_forward),
-                label: const Text('Go to Details (no data)'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Navigation with data
-              ElevatedButton.icon(
-                onPressed: () {
-                  _navigateToDetails(context, withData: true);
-                },
-                icon: const Icon(Icons.arrow_forward),
-                label: const Text('Go to Details (with data)'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  backgroundColor: Colors.green,
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Navigation to Profile
-              ElevatedButton.icon(
-                onPressed: () {
-                  _navigateToProfile(context);
-                },
-                icon: const Icon(Icons.person),
-                label: const Text('Go to Profile'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  backgroundColor: Colors.orange,
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Navigation to Settings
-              ElevatedButton.icon(
-                onPressed: () {
-                  _navigateToSettings(context);
-                },
-                icon: const Icon(Icons.settings),
-                label: const Text('Go to Settings'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  backgroundColor: Colors.purple,
-                ),
+              ElevatedButton(
+                onPressed: () => AppRouter().pushRoute(AppRoute.signup),
+                child: const Text('Sign Up'),
               ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  /// Navigates to the Details screen
-  /// Demonstrates both with and without data
-  void _navigateToDetails(BuildContext context, {required bool withData}) {
-    final appRouter = AppRouter();
-
-    if (withData) {
-      // Navigation with typed data
-      final arguments = RouteArguments(
-        id: 'PROD-12345',
-        title: 'Premium Widget',
-        data: {
-          'price': 99.99,
-          'description': 'A high-quality premium widget',
-          'inStock': true,
-        },
-      );
-
-      appRouter.pushRoute(AppRoute.details, data: arguments);
-    } else {
-      // Navigation without data
-      appRouter.pushRoute(AppRoute.details);
-    }
-  }
-
-  /// Navigates to the Profile screen
-  void _navigateToProfile(BuildContext context) {
-    final appRouter = AppRouter();
-    final userProfile = RouteArguments(
-      id: 'user-001',
-      title: 'John Doe',
-      data: {
-        'email': 'john@example.com',
-        'phone': '+1-234-567-8900',
-        'joinDate': '2023-01-15',
-      },
-    );
-
-    appRouter.pushRoute(AppRoute.profile, data: userProfile);
-  }
-
-  /// Navigates to the Settings screen
-  void _navigateToSettings(BuildContext context) {
-    final appRouter = AppRouter();
-    appRouter.pushRoute(AppRoute.settings);
   }
 }

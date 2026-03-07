@@ -50,8 +50,8 @@ extension NetworkBaseExt on NetworkBase {
         // Android emulator uses 10.0.2.2 to access host machine
         return '10.0.2.2:3000';
       case NetworkBase.localhostDevice:
-        // Physical device needs the actual machine IP
-        return '192.168.0.105:3000';
+        // Physical device/macOS uses localhost:3000
+        return 'localhost:3000';
     }
   }
 }
