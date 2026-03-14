@@ -84,11 +84,25 @@ class NetworkManager {
       headers: mergedHeaders,
     );
 
-    // Handle errors
+    // Handle errors — forward the full parsed response body so callers can
+    // extract the backend's structured error JSON (code / message / hint).
     if (!response.isSuccess) {
+      // Try to pull a human-readable message from the backend body.
+      String errorMessage = 'Request failed with status ${response.statusCode}';
+      if (response.body is Map) {
+        final body = response.body as Map;
+        final error = body['error'];
+        if (error is Map && error['message'] != null) {
+          errorMessage = error['message'].toString();
+        } else if (body['message'] != null) {
+          errorMessage = body['message'].toString();
+        }
+      }
+
       throw NetworkException(
-        message: 'API Error: ${response.errorMessage ?? 'Unknown error'}',
+        message: errorMessage,
         statusCode: response.statusCode,
+        responseBody: response.body,
       );
     }
 

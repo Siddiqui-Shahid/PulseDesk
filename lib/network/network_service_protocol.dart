@@ -80,10 +80,16 @@ class NetworkException implements Exception {
   final int? statusCode;
   final dynamic originalError;
 
+  /// The parsed response body from the server (Map, List, or String).
+  /// Contains the full error JSON sent by the backend, e.g.:
+  /// { "success": false, "error": { "code": "USER_EXISTS", "message": "..." } }
+  final dynamic responseBody;
+
   NetworkException({
     required this.message,
     this.statusCode,
     this.originalError,
+    this.responseBody,
   });
 
   @override
