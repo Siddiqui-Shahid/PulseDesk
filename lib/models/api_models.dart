@@ -2,6 +2,7 @@
 ///
 /// Follows the MediSeen pattern of factory constructors + toJson()
 /// Handles null-safety with default values
+library;
 
 /// Generic API Response wrapper
 ///

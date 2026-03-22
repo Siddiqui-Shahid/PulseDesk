@@ -9,7 +9,7 @@ import '../router/app_route.dart';
 /// Uses a widgetized approach with ViewModel pattern
 /// Data flows from ViewModel to custom widgets
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

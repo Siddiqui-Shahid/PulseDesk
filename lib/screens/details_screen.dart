@@ -10,7 +10,7 @@ class DetailsScreen extends StatefulWidget {
   /// The arguments passed during navigation
   final RouteArguments? arguments;
 
-  const DetailsScreen({Key? key, this.arguments}) : super(key: key);
+  const DetailsScreen({super.key, this.arguments});
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();

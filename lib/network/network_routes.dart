@@ -2,6 +2,7 @@
 ///
 /// Follows the MediSeen pattern for flexible environment switching
 /// without needing code changes
+library;
 
 /// Network protocol enumeration
 enum NetworkProtocol { http, https }

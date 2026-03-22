@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../view_models/splash_view_model.dart';
 
 /// Custom Widget for Splash Logo Section
@@ -8,8 +9,7 @@ class SplashLogoWidget extends StatefulWidget {
   final IconData icon;
   final Color color;
 
-  const SplashLogoWidget({Key? key, required this.icon, required this.color})
-    : super(key: key);
+  const SplashLogoWidget({super.key, required this.icon, required this.color});
 
   @override
   State<SplashLogoWidget> createState() => _SplashLogoWidgetState();
@@ -74,10 +74,10 @@ class SplashHeaderWidget extends StatelessWidget {
   final String tagline;
 
   const SplashHeaderWidget({
-    Key? key,
+    super.key,
     required this.appName,
     required this.tagline,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +86,7 @@ class SplashHeaderWidget extends StatelessWidget {
       children: [
         Text(
           appName,
-          style: const TextStyle(
+          style: GoogleFonts.inter(
             fontSize: 42,
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -96,7 +96,7 @@ class SplashHeaderWidget extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           tagline,
-          style: const TextStyle(
+          style: GoogleFonts.inter(
             fontSize: 16,
             color: Colors.white,
             fontWeight: FontWeight.w300,
@@ -111,42 +111,15 @@ class SplashHeaderWidget extends StatelessWidget {
 /// Custom Widget for Loading Section
 ///
 /// Displays progress bar and initialization message
-class SplashLoadingWidget extends StatefulWidget {
+class SplashLoadingWidget extends StatelessWidget {
   final String message;
+  final double progress;
 
-  const SplashLoadingWidget({Key? key, required this.message})
-    : super(key: key);
-
-  @override
-  State<SplashLoadingWidget> createState() => _SplashLoadingWidgetState();
-}
-
-class _SplashLoadingWidgetState extends State<SplashLoadingWidget>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _progressAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    );
-
-    _progressAnimation = Tween<double>(
-      begin: 0.0,
-      end: 0.7,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  const SplashLoadingWidget({
+    super.key,
+    required this.message,
+    required this.progress,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -154,8 +127,8 @@ class _SplashLoadingWidgetState extends State<SplashLoadingWidget>
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          widget.message,
-          style: const TextStyle(
+          message,
+          style: GoogleFonts.inter(
             fontSize: 12,
             color: Colors.white70,
             fontWeight: FontWeight.w500,
@@ -171,27 +144,22 @@ class _SplashLoadingWidgetState extends State<SplashLoadingWidget>
             child: Stack(
               children: [
                 Container(color: Colors.white.withOpacity(0.2)),
-                AnimatedBuilder(
-                  animation: _progressAnimation,
-                  builder: (context, child) {
-                    return Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        width: 200 * _progressAnimation.value,
-                        height: 6,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(3),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.white.withOpacity(0.5),
-                              blurRadius: 8,
-                            ),
-                          ],
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    width: 200 * progress,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(3),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.white.withOpacity(0.5),
+                          blurRadius: 8,
                         ),
-                      ),
-                    );
-                  },
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -210,10 +178,10 @@ class SplashStatusWidget extends StatefulWidget {
   final Color statusColor;
 
   const SplashStatusWidget({
-    Key? key,
+    super.key,
     required this.status,
     required this.statusColor,
-  }) : super(key: key);
+  });
 
   @override
   State<SplashStatusWidget> createState() => _SplashStatusWidgetState();
@@ -277,7 +245,7 @@ class _SplashStatusWidgetState extends State<SplashStatusWidget>
           const SizedBox(width: 12),
           Text(
             widget.status,
-            style: const TextStyle(
+            style: GoogleFonts.inter(
               fontSize: 14,
               color: Colors.white,
               fontWeight: FontWeight.w500,

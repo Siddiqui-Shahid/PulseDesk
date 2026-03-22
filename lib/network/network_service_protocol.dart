@@ -1,6 +1,7 @@
 /// Network service protocol and models
 ///
 /// Following interface-based design for mockable testing
+library;
 
 /// Response model from network requests
 class NetworkResponse {

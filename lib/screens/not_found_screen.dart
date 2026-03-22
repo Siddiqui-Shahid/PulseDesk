@@ -5,7 +5,7 @@ import '../router/app_route.dart';
 class NotFoundScreen extends StatelessWidget {
   final String? attemptedPath;
 
-  const NotFoundScreen({Key? key, this.attemptedPath}) : super(key: key);
+  const NotFoundScreen({super.key, this.attemptedPath});
 
   @override
   Widget build(BuildContext context) {

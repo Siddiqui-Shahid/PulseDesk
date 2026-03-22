@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'router/app_router.dart';
 import 'router/app_route.dart';
 import 'network/network_manager.dart';
@@ -41,7 +42,8 @@ void main() async {
 class MyApp extends StatefulWidget {
   final bool isAuthenticated;
 
-  const MyApp({Key? key, this.isAuthenticated = false}) : super(key: key);
+  const MyApp({super.key, this.isAuthenticated = false});
+  @override
   State<MyApp> createState() => _MyAppState();
 }
 
@@ -73,7 +75,11 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'PulseDesk - Router Demo',
-      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        useMaterial3: true,
+        fontFamily: GoogleFonts.inter().fontFamily,
+      ),
       // Use the router's navigator key for programmatic navigation
       navigatorKey: _appRouter.navigatorKey,
       // Define named routes for navigation

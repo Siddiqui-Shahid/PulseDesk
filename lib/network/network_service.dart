@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'network_service_protocol.dart';
 
@@ -35,6 +36,13 @@ class NetworkService implements NetworkServiceProtocol {
       // Build URI
       final uri = _buildUri(path, params);
 
+      // Log request details
+      developer.log('📡 HTTP Request: $method $uri');
+      developer.log('   Timeout: ${timeout.inSeconds}s');
+      if (data != null) {
+        developer.log('   Body: $data');
+      }
+
       // Merge headers
       final mergedHeaders = {..._defaultHeaders, ...?headers};
 
@@ -47,8 +55,11 @@ class NetworkService implements NetworkServiceProtocol {
         timeout: timeout,
       );
 
+      developer.log('✅ Response: ${response.statusCode}');
       return response;
-    } catch (e) {
+    } catch (e, stackTrace) {
+      developer.log('🔴 Network Error: $e');
+      developer.log('   Stack: $stackTrace');
       throw NetworkException(
         message: 'Network request failed: $e',
         originalError: e,
@@ -158,10 +169,16 @@ class NetworkService implements NetworkServiceProtocol {
         headers: response.headers,
       );
     } on http.ClientException catch (e) {
+      developer.log('🔴 HTTP Client Error: ${e.message}');
+      developer.log('   Error Type: ${e.runtimeType}');
       throw NetworkException(
         message: 'HTTP client error: ${e.message}',
         originalError: e,
       );
+    } catch (e, stackTrace) {
+      developer.log('🔴 Request Exception: $e');
+      developer.log('   Stack: $stackTrace');
+      rethrow;
     }
   }
 

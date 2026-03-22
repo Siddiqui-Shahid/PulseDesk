@@ -7,7 +7,7 @@ import '../router/route_models.dart';
 class ProfileScreen extends StatefulWidget {
   final RouteArguments? arguments;
 
-  const ProfileScreen({Key? key, this.arguments}) : super(key: key);
+  const ProfileScreen({super.key, this.arguments});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();

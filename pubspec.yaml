@@ -40,6 +40,9 @@ dependencies:
   
   # Data persistence and local storage
   shared_preferences: ^2.2.2
+  
+  # Google Fonts for Inter and other fonts
+  google_fonts: ^6.1.0
 
 dev_dependencies:
   flutter_test:

@@ -4,7 +4,7 @@ import '../router/app_route.dart';
 
 /// Settings screen - simple screen without data passing
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({super.key});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();

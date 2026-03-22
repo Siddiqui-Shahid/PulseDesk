@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:developer' as developer;
 import '../router/app_router.dart';
 import '../router/app_route.dart';
 import '../repositories/repositories.dart';
@@ -34,10 +35,12 @@ class SignupViewModel extends ChangeNotifier {
   // Get list of password requirement errors
   List<String> getPasswordErrors() {
     final errors = <String>[];
-    if (!hasUpperCase)
+    if (!hasUpperCase) {
       errors.add('must contain at least one uppercase letter (A-Z)');
-    if (!hasLowerCase)
+    }
+    if (!hasLowerCase) {
       errors.add('must contain at least one lowercase letter (a-z)');
+    }
     if (!hasNumber) errors.add('must contain at least one number (0-9)');
     if (!hasMinLength) errors.add('must be at least 8 characters long');
     return errors;
@@ -47,6 +50,12 @@ class SignupViewModel extends ChangeNotifier {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
+
+    // Log signup attempt
+    developer.log('=== SIGNUP ATTEMPT ===');
+    developer.log('Username: $username');
+    developer.log('Email: $email');
+    developer.log('Password length: ${password.length}');
 
     try {
       // Validate inputs
@@ -68,7 +77,10 @@ class SignupViewModel extends ChangeNotifier {
       }
 
       // Call signup from AuthRepository
+      developer.log('Making signup request to backend...');
       final authRepo = RepositoryLocator.auth;
+      developer.log('AuthRepository initialized');
+
       await authRepo.signup(
         email: email,
         username: username,
@@ -76,10 +88,16 @@ class SignupViewModel extends ChangeNotifier {
       );
 
       // Navigate to home on success
+      developer.log('Signup successful! Navigating to home...');
       _isLoading = false;
       notifyListeners();
       _router.pushRoute(AppRoute.home);
     } on NetworkException catch (e) {
+      // Log network error
+      developer.log('🔴 NetworkException: ${e.message}');
+      developer.log('Response Body: ${e.responseBody}');
+      developer.log('Status Code: ${e.statusCode}');
+
       // Try to parse backend error response
       try {
         final jsonResponse = e.responseBody is Map ? e.responseBody : null;
@@ -95,7 +113,9 @@ class SignupViewModel extends ChangeNotifier {
       }
       _isLoading = false;
       notifyListeners();
-    } catch (e) {
+    } catch (e, stackTrace) {
+      developer.log('🔴 Signup Exception: ${e.toString()}');
+      developer.log('Stack trace: $stackTrace');
       _errorMessage = 'Signup failed: ${e.toString()}';
       _isLoading = false;
       notifyListeners();

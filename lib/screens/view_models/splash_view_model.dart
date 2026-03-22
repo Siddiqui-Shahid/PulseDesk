@@ -8,14 +8,30 @@ import '../../router/app_route.dart';
 class SplashViewModel extends ChangeNotifier {
   final AppRouter _appRouter = AppRouter();
   bool _isInitializing = true;
+  double _progress = 0.0;
+  String _statusMessage = 'Initializing system...';
 
   bool get isInitializing => _isInitializing;
+  double get progress => _progress;
+  String get statusMessage => _statusMessage;
 
-  /// Start initialization process
+  /// Start initialization process with 3-second simulated loading
   Future<void> initializeApp(BuildContext context) async {
     try {
-      // Simulate initialization tasks (database, network, etc.)
-      await Future.delayed(const Duration(seconds: 2));
+      // Stage 1: Configuration loading (0-30%)
+      await Future.delayed(const Duration(milliseconds: 500));
+      _updateProgress(0.3, 'Loading configuration...');
+
+      // Stage 2: Service connection (30-70%)
+      await Future.delayed(const Duration(milliseconds: 1000));
+      _updateProgress(0.7, 'Connecting to services...');
+
+      // Stage 3: Final initialization (70-100%)
+      await Future.delayed(const Duration(milliseconds: 800));
+      _updateProgress(1.0, 'System ready');
+
+      // Wait a bit to show completion
+      await Future.delayed(const Duration(milliseconds: 200));
 
       _isInitializing = false;
       notifyListeners();
@@ -29,6 +45,13 @@ class SplashViewModel extends ChangeNotifier {
       _isInitializing = false;
       notifyListeners();
     }
+  }
+
+  /// Update progress and status message
+  void _updateProgress(double progress, String message) {
+    _progress = progress.clamp(0.0, 1.0);
+    _statusMessage = message;
+    notifyListeners();
   }
 }
 

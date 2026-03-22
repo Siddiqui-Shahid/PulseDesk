@@ -3,7 +3,7 @@ import 'signup_viewmodel.dart';
 import '../models/api_error.dart';
 
 class SignupView extends StatefulWidget {
-  const SignupView({Key? key}) : super(key: key);
+  const SignupView({super.key});
 
   @override
   State<SignupView> createState() => _SignupViewState();

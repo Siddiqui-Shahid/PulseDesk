@@ -7,7 +7,7 @@ import '../view_models/home_view_model.dart';
 class WelcomeHeaderWidget extends StatelessWidget {
   final WelcomeData data;
 
-  const WelcomeHeaderWidget({Key? key, required this.data}) : super(key: key);
+  const WelcomeHeaderWidget({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,7 @@ class WelcomeHeaderWidget extends StatelessWidget {
 class NavigationButtonsWidget extends StatelessWidget {
   final List<NavigationItem> items;
 
-  const NavigationButtonsWidget({Key? key, required this.items})
-    : super(key: key);
+  const NavigationButtonsWidget({super.key, required this.items});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +59,7 @@ class NavigationButtonsWidget extends StatelessWidget {
 class _NavigationButtonItem extends StatelessWidget {
   final NavigationItem item;
 
-  const _NavigationButtonItem({Key? key, required this.item}) : super(key: key);
+  const _NavigationButtonItem({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
